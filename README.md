@@ -1,4 +1,4 @@
-![LaravelLink](https://github.com/user-attachments/assets/297b677b-b5bf-40b1-8bba-383e275b1cc3)
+<img src="https://github.com/user-attachments/assets/297b677b-b5bf-40b1-8bba-383e275b1cc3" alt="LaravelLink">
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
