@@ -1,4 +1,17 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+		<polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="#FF2D20" />
+		
+		<circle cx="35" cy="50" r="10" stroke="#FFFFFF" stroke-width="3" fill="none" />
+		<circle cx="65" cy="50" r="10" stroke="#FFFFFF" stroke-width="3" fill="none" />
+		<line x1="40" y1="50" x2="60" y2="50" stroke="#FFFFFF" stroke-width="3" />
+		
+		<!-- Text -->
+		<text x="50%" y="92%" fill="#4A4A4A" font-size="10" font-family="Arial, sans-serif" text-anchor="middle">
+			LaravelLink
+		</text>
+	</svg>
+</p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
