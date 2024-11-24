@@ -1,5 +1,5 @@
 <p align="center">
-    ![LaravelLink](https://github.com/user-attachments/assets/a1d0ee2a-aceb-478d-a18d-0bcdea6604b0)
+    ![LaravelLink](https://github.com/user-attachments/assets/a1d0ee2a-aceb-478d-a18d-0bcdea6604b0) 
 </p>
 
 <p align="center">
