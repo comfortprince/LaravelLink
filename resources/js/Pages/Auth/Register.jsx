@@ -3,6 +3,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
+import RoleSelectionCard from '@/Pages/Auth/Components/RoleSelectionCard';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
@@ -25,7 +26,9 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <RoleSelectionCard/>
+
+            <form onSubmit={submit} className="hidden">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
