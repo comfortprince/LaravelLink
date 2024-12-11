@@ -7,7 +7,8 @@ export default function ApplicationLogo(props) {
             width="100" 
             height="100">
              {/* Hexagon */}
-            <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="#FF2D20" />
+            <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="#1f2937" />
+            {/* fill="#FF2D20" */}
             
             {/* Interlinking chain concept */}
             <circle cx="35" cy="50" r="10" stroke="#FFFFFF" stroke-width="3" fill="none" />

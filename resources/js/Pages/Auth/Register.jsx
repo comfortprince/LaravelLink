@@ -4,7 +4,9 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import RoleSelectionCard from '@/Pages/Auth/Components/RoleSelectionCard';
+import RegistrationForm from '@/Pages/Auth/Components/RegistrationForm';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,6 +15,8 @@ export default function Register() {
         password: '',
         password_confirmation: '',
     });
+
+    const [selectedRole, setSelectedRole] = useState('');
 
     const submit = (e) => {
         e.preventDefault();
@@ -26,7 +30,14 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <RoleSelectionCard/>
+            <RoleSelectionCard 
+                setSelectedRole = {setSelectedRole}
+                className={`${selectedRole !== '' && 'hidden'} `}
+            />
+            <RegistrationForm 
+                selectedRole={selectedRole}
+                className={selectedRole === '' && 'hidden'}
+            />
 
             <form onSubmit={submit} className="hidden">
                 <div>
