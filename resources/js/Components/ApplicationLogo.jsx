@@ -11,9 +11,9 @@ export default function ApplicationLogo(props) {
             {/* fill="#FF2D20" */}
             
             {/* Interlinking chain concept */}
-            <circle cx="35" cy="50" r="10" stroke="#FFFFFF" stroke-width="3" fill="none" />
-            <circle cx="65" cy="50" r="10" stroke="#FFFFFF" stroke-width="3" fill="none" />
-            <line x1="40" y1="50" x2="60" y2="50" stroke="#FFFFFF" stroke-width="3" />
+            <circle cx="35" cy="50" r="10" stroke="#FFFFFF" strokeWidth="3" fill="none" />
+            <circle cx="65" cy="50" r="10" stroke="#FFFFFF" strokeWidth="3" fill="none" />
+            <line x1="40" y1="50" x2="60" y2="50" stroke="#FFFFFF" strokeWidth="3" />
         </svg>
     );
 }
