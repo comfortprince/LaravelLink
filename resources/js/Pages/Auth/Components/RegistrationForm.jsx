@@ -3,11 +3,14 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { useEffect } from 'react';
 
 export default function RegistrationForm({ 
-    className = ''
+    className = '',
+    selectedRole
  }) {
     const { data, setData, post, processing, errors } = useForm({
+        roleId: '',
         firstName: '',
         surname: '',
         email: '',
@@ -26,6 +29,12 @@ export default function RegistrationForm({
             onFinish: () => reset('password', 'password_confirmation'),
         });
     };
+
+    useEffect(() => {
+        if (selectedRole) {
+            setData('roleId', selectedRole.id)
+        }
+    }, [selectedRole]);
 
     return (
         <form onSubmit={submit} className={`${className}`}>

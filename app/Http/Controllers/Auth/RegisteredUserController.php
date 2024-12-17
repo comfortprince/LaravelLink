@@ -20,7 +20,20 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $roles = [
+            'client' => [
+                'id'=> 1,
+                'name'=> 'CLIENT'
+            ],
+            'freelancer' => [
+                'id'=> 2,
+                'name'=> 'FREELANCER'
+            ]
+        ];
+
+        return Inertia::render('Auth/Register', [
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -30,6 +43,8 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        dd($request->all());
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,

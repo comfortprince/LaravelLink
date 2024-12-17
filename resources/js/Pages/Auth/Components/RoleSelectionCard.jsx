@@ -3,7 +3,8 @@ import SecondaryButton from '@/Components/SecondaryButton';
 
 export default function RoleSelectionCard({
     className='',
-    setSelectedRole
+    setSelectedRole,
+    roles
 }) {
     return (
         <div
@@ -16,7 +17,7 @@ export default function RoleSelectionCard({
                 {/* Client Button */}
                 <PrimaryButton 
                     className='w-full justify-center'
-                    onClick={()=>{setSelectedRole('CLIENT')}}    
+                    onClick={()=>{setSelectedRole(roles.client)}}    
                 >
                     Join as Client
                 </PrimaryButton>
@@ -24,7 +25,7 @@ export default function RoleSelectionCard({
                 {/* Freelancer Button */}
                 <SecondaryButton 
                     className='w-full justify-center'
-                    onClick={()=>{setSelectedRole('FREELANCER')}}
+                    onClick={()=>{setSelectedRole(roles.freelancer)}}
                 >
                     Join as Freelancer
                 </SecondaryButton>
