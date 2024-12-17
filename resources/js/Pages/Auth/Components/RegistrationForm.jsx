@@ -3,12 +3,15 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { useEffect } from 'react';
+import Select from '@/Components/Select';
+import { useEffect, useState, useRef } from 'react';
 
 export default function RegistrationForm({ 
     className = '',
     selectedRole
  }) {
+    const [countries, setCountries] = useState(null);
+    const countrySelectRef = useRef(null)
     const { data, setData, post, processing, errors } = useForm({
         roleId: '',
         firstName: '',
@@ -35,6 +38,44 @@ export default function RegistrationForm({
             setData('roleId', selectedRole.id)
         }
     }, [selectedRole]);
+
+    // Fetch Country Data
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const COUNTRIESAPI = 'https://restcountries.com/v3.1/all?fields=name';
+
+                const countriesResponse = await fetch(COUNTRIESAPI);
+                const countries = await countriesResponse.json();
+                const formattedCountries = countries.map((country) => {
+                    return { value: country.name.common, label: country.name.common}
+                });
+                formattedCountries.sort((countryA, countryB) => {
+                    const nameA = countryA.value.toUpperCase();
+                    const nameB = countryB.value.toUpperCase();
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                  
+                    // names must be equal
+                    return 0;
+                });
+                setCountries(formattedCountries);
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+            }
+          };
+      
+        fetchCountries();
+    }, [])
+
+    const clearCountrySelction = () => {
+        countrySelectRef.current.clear();
+        setData('country', '')
+    }
 
     return (
         <form onSubmit={submit} className={`${className}`}>
@@ -122,14 +163,22 @@ export default function RegistrationForm({
 
             <div className="mt-4">
                 <InputLabel htmlFor="country" value="Country" />
-                <TextInput
-                    id="country"
-                    name="country"
-                    value={data.country}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('country', e.target.value)}
-                    required
+                <Select
+                    options={countries}
+                    onSelect={(selectedCountry => { setData('country', selectedCountry) })}
+                    placeholder='Select a country..'
+                    className='mt-1'
+                    ref={countrySelectRef}
                 />
+                {data.country && (
+                    <button
+                        onClick={clearCountrySelction}
+                        type='button'
+                        className="mt-2 text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                    Clear Country Selection
+                    </button>
+                )}
                 <InputError message={errors.country} className="mt-2" />
             </div>
 
