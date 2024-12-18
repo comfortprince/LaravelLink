@@ -10,8 +10,10 @@ export default function RegistrationForm({
     className = '',
     selectedRole
  }) {
-    const [countries, setCountries] = useState(null);
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState([]);
     const countrySelectRef = useRef(null)
+    const citySelectRef = useRef(null)
     const { data, setData, post, processing, errors } = useForm({
         roleId: '',
         firstName: '',
@@ -74,8 +76,57 @@ export default function RegistrationForm({
 
     const clearCountrySelction = () => {
         countrySelectRef.current.clear();
-        setData('country', '')
+        setData((data) => ({
+            ...data,
+            country: '',
+            city: ''
+        }))
+        setCities([]);  
+        clearCitySelction();   
     }
+
+    // Fetch Cities
+    useEffect(()=>{
+        if (data.country) {
+            const fetchCities = async () => {
+                try {
+                    const CITIESAPI = 'https://countriesnow.space/api/v0.1/countries/cities';
+                    const myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
+                    const RAW = JSON.stringify({
+                        "country": data.country
+                    });
+
+                    citySelectRef.current.setLoading(true);
+                    const citiesResponse = await fetch(CITIESAPI, {
+                        method: "POST",
+                        headers: myHeaders,
+                        body: RAW,
+                        redirect: "follow"
+                    });
+    
+                    const citiesObj = await citiesResponse.json();
+                    const formattedCities = citiesObj.data.map((city) => {
+                        return { label: city, value: city }
+                    })
+                    setCities(formattedCities);
+                    citySelectRef.current.setLoading(false);
+                } catch (error) {
+                    console.error('Error fetching cities:', error);
+                }
+            };
+          
+            fetchCities();
+        }
+    }, [data.country])
+
+    const clearCitySelction = () => {
+        setData((data) => ({
+            ...data,
+            city: ''
+        }))
+        citySelectRef.current.clear()
+    };
 
     return (
         <form onSubmit={submit} className={`${className}`}>
@@ -165,7 +216,12 @@ export default function RegistrationForm({
                 <InputLabel htmlFor="country" value="Country" />
                 <Select
                     options={countries}
-                    onSelect={(selectedCountry => { setData('country', selectedCountry) })}
+                    onSelect={(selectedCountry => {
+                        setData((data) => ({
+                            ...data,
+                            country: selectedCountry
+                        }))
+                    })}
                     placeholder='Select a country..'
                     className='mt-1'
                     ref={countrySelectRef}
@@ -184,14 +240,28 @@ export default function RegistrationForm({
 
             <div className="mt-4">
                 <InputLabel htmlFor="city" value="City" />
-                <TextInput
-                    id="city"
-                    name="city"
-                    value={data.city}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('city', e.target.value)}
-                    required
+                <Select
+                    options={cities}
+                    onSelect={(selectedCity => {
+                        setData((data) => ({
+                            ...data,
+                            city: selectedCity
+                        }))
+                    })}
+                    placeholder='Select a city..'
+                    emptyOptionsPlaceholder='Please Select a Country'
+                    className='mt-1'
+                    ref={citySelectRef}
                 />
+                {data.city && (
+                    <button
+                        onClick={clearCitySelction}
+                        type='button'
+                        className="mt-2 text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                    Clear City Selection
+                    </button>
+                )}
                 <InputError message={errors.city} className="mt-2" />
             </div>
 
