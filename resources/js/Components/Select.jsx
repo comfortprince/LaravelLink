@@ -3,11 +3,13 @@ import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "re
 const Select = forwardRef(({ 
     options,
     placeholder='Select an option...',
+    emptyOptionsPlaceholder='Options is Empty',
     className,
     onSelect
 }, ref) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
+  const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -38,7 +40,8 @@ const Select = forwardRef(({
   }, []);
 
   useImperativeHandle(ref, () => ({
-    clear: handleClear
+    clear: handleClear,
+    setLoading: (loadingState) => setLoading(loadingState)
   }));
 
   return (
@@ -68,9 +71,16 @@ const Select = forwardRef(({
               {option.label}
             </div>
           )) :
-            <div>
-              Options is Empty  
-            </div>}
+          loading ?
+          <div className="px-3 py-2 bg-[#1f2937] flex justify-center">
+            <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          </div>:
+          <div className="px-3 py-2">
+            {emptyOptionsPlaceholder}  
+          </div>}
         </div>
       )}
     </div>
