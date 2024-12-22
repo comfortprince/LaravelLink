@@ -5,6 +5,9 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import Select from '@/Components/Select';
 import { useEffect, useState, useRef } from 'react';
+import { usePage } from '@inertiajs/react'
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
 
 export default function RegistrationForm({ 
     className = '',
@@ -12,6 +15,7 @@ export default function RegistrationForm({
  }) {
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
+    const [profPicErrors, setProfPicErrors] = useState([]);
     const countrySelectRef = useRef(null)
     const citySelectRef = useRef(null)
     const { data, setData, post, processing, errors } = useForm({
@@ -21,7 +25,7 @@ export default function RegistrationForm({
         email: '',
         password: '',
         password_confirmation: '',
-        profile_picture: null,
+        profile_picture_id: '',
         country: '',
         city: '',
         website_link: '',
@@ -200,16 +204,50 @@ export default function RegistrationForm({
 
             <div className="mt-4">
                 <InputLabel htmlFor="profile_picture" value="Profile Picture" />
-                <input
+                <FilePond
+                    name='profile_picture'
                     id="profile_picture"
-                    type="file"
-                    name="profile_picture"
-                    accept="image/jpeg,image/png,image/jpg,image/gif"
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData('profile_picture', e.target.files[0])}
-                    required
-                />
-                <InputError message={errors.profile_picture} className="mt-2" />
+                    server={{
+                        url: 'http://127.0.0.1:8000/api/filepond',
+                        timeout: 7000,
+                        process: {
+                            url: '/process',
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': usePage().props.csrf_token
+                            },
+                            withCredentials: false,
+                            onload: (uniqueFileId) => {
+                                setData('profile_picture_id', uniqueFileId)
+                                setProfPicErrors([])
+                            },
+                            onerror: (response) => {
+                                const errorObj = JSON.parse(response)
+                                console.log(JSON.parse(response))
+
+                                if (errorObj.status === 'fail') {
+                                    setProfPicErrors(errorObj.errors.profile_picture);
+                                }
+                            },
+                            ondata: null,
+                        },
+                        revert: {
+                            url: '/revert/',
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': usePage().props.csrf_token
+                            },
+                            withCredentials: false,
+                            onload: (response) => console.log(response),
+                            onerror: (response) => console.log(response),
+                            ondata: null,
+                        },
+                        restore: './restore/',
+                        load: './load/',
+                        fetch: './fetch/',
+                    }}
+                ></FilePond>
+                <InputError message={profPicErrors} className="mt-2" />
             </div>
 
             <div className="mt-4">
