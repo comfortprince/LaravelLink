@@ -232,7 +232,7 @@ export default function RegistrationForm({
                             ondata: null,
                         },
                         revert: {
-                            url: '/revert/',
+                            url: `/revert/${data.profile_picture_id}`,
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': usePage().props.csrf_token
@@ -242,9 +242,9 @@ export default function RegistrationForm({
                             onerror: (response) => console.log(response),
                             ondata: null,
                         },
-                        restore: './restore/',
-                        load: './load/',
-                        fetch: './fetch/',
+                        restore: null,
+                        load: null,
+                        fetch: null,
                     }}
                 ></FilePond>
                 <InputError message={profPicErrors} className="mt-2" />

@@ -16,7 +16,13 @@ class FilePondController extends Controller
     }
 
     public function revert($uniqueId): string {
-        // Storage::delete('file.jpg');
-        return json_encode($uniqueId);
+        if(Storage::exists('profile_pics/tmp/'.$uniqueId)){
+            if(Storage::deleteDirectory('profile_pics/tmp/'.$uniqueId)){
+                return 'Profile Pic Deleted';
+            }else{
+                return 'Profile Pic Not Deleted';
+            }
+        }
+        return '';
     }
 }
