@@ -18,8 +18,8 @@ export default function RegistrationForm({
     const [profPicErrors, setProfPicErrors] = useState([]);
     const countrySelectRef = useRef(null)
     const citySelectRef = useRef(null)
-    const { data, setData, post, processing, errors } = useForm({
-        roleId: '',
+    const { data, setData, post, processing, errors, reset } = useForm({
+        roleId: `${selectedRole}`,
         firstName: '',
         surname: '',
         email: '',
@@ -134,6 +134,10 @@ export default function RegistrationForm({
 
     return (
         <form onSubmit={submit} className={`${className}`}>
+            <div>
+                <InputError message={errors.roleId} className="mt-2" />
+            </div>
+
             <div>
                 <InputLabel htmlFor="firstName" value="First Name" />
                 <TextInput

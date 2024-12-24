@@ -17,7 +17,10 @@ export default function RoleSelectionCard({
                 {/* Client Button */}
                 <PrimaryButton 
                     className='w-full justify-center'
-                    onClick={()=>{setSelectedRole(roles.client)}}    
+                    onClick={()=>{setSelectedRole(()=>{
+                        const role = roles.find(role => role.name === 'client');
+                        return role;
+                    })}}    
                 >
                     Join as Client
                 </PrimaryButton>
@@ -25,7 +28,10 @@ export default function RoleSelectionCard({
                 {/* Freelancer Button */}
                 <SecondaryButton 
                     className='w-full justify-center'
-                    onClick={()=>{setSelectedRole(roles.freelancer)}}
+                    onClick={()=>{setSelectedRole(()=>{
+                        const role = roles.find(role => role.name === 'client');
+                        return role;
+                    })}}
                 >
                     Join as Freelancer
                 </SecondaryButton>
