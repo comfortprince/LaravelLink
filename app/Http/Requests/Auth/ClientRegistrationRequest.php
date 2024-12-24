@@ -26,11 +26,8 @@ class ClientRegistrationRequest extends FormRequest
     public function rules(): array
     {
         $roleIds = Role::whereIn('name', ['client','freelancer'])
-                    ->select(['id'])
-                    ->get()
-                    ->map(function ($idArr, $key) {
-                        return $idArr['id'];
-                    })->toArray();
+                    ->pluck('id')
+                    ->toArray();
 
         return [
             'roleId' => [
