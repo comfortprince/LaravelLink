@@ -25,25 +25,35 @@ class ClientRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $roleIds = Role::whereIn('name', ['client','freelancer'])
-                    ->pluck('id')
-                    ->toArray();
-
         return [
             'roleId' => [
                 'required',
                 'integer',
-                Rule::in($roleIds)
+                Rule::in($this->getValidRoleIds())
             ],
             'firstName' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'profile_picture_id'=> '',
-            'country' => '',
+            'country' => [
+                'required',
+                'string',
+                Rule::in($this->getCountries())
+            ],
             'city' => '',
             'website_link' => '',
             'bio' => '',
         ];
+    }
+
+    private function getValidRoleIds(): array {
+        return Role::whereIn('name', ['client','freelancer'])
+            ->pluck('id')
+            ->toArray();
+    }
+
+    private function getCountries(): array {
+        return config('custom_constants.countries', []);
     }
 }
