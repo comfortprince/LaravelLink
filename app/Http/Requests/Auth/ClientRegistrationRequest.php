@@ -41,7 +41,11 @@ class ClientRegistrationRequest extends FormRequest
                 'string',
                 Rule::in($this->getCountries())
             ],
-            'city' => '',
+            'city' => [
+                'required',
+                'string',
+                Rule::in($this->getCities(request()->input('country')))
+            ],
             'website_link' => '',
             'bio' => '',
         ];
@@ -55,5 +59,17 @@ class ClientRegistrationRequest extends FormRequest
 
     private function getCountries(): array {
         return config('custom_constants.countries', []);
+    }
+
+    private function getCities($countryName) : array {
+        $countryCities = config('custom_constants.cities', []);
+
+        foreach ($countryCities as $country) {
+            if (array_key_exists($countryName, $country)) {
+                return $country[$countryName];
+            }
+        }
+
+        throw new \Exception("Country not found");
     }
 }
