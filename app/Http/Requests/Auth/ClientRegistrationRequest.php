@@ -46,8 +46,8 @@ class ClientRegistrationRequest extends FormRequest
                 'string',
                 Rule::in($this->getCities(request()->input('country')))
             ],
-            'website_link' => '',
-            'bio' => '',
+            'website_link' => 'nullable|string|max:255',
+            'bio' => 'required|string|min:300|max:600',
         ];
     }
 
